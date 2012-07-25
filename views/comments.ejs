@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:fb="http://ogp.me/ns/fb#" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes" />
+
+    <title><%= app.name %></title>
+    <link rel="stylesheet" href="stylesheets/screen.css" media="Screen" type="text/css" />
+    <link rel="stylesheet" href="stylesheets/mobile.css" media="handheld, only screen and (max-width: 480px), only screen and (max-device-width: 480px)" type="text/css" />
+
+    <!--[if IEMobile]>
+    <link rel="stylesheet" href="mobile.css" media="screen" type="text/css"  />
+    <![endif]-->
+
+    <!-- These are Open Graph tags.  They add meta data to your  -->
+    <!-- site that facebook uses when your content is shared     -->
+    <!-- over facebook.  You should fill these tags in with      -->
+    <!-- your data.  To learn more about Open Graph, visit       -->
+    <!-- 'https://developers.facebook.com/docs/opengraph/'       -->
+    <meta property="og:title" content="<%= app.name %>" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="<%= url() %>" />
+    <meta property="og:image" content="<%= url('/logo.png') %>" />
+    <meta property="og:site_name" content="<%= app.name %>" />
+    <meta property="og:description" content="My first app" />
+    <meta property="fb:app_id" content="<%= app.id %>" />
+
+    <script type="text/javascript" src="/scripts/jquery.min.js"></script>
+
+  </head>
+  <body>
+    <div id="fb-root"></div>
+    <script type="text/javascript">
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '<%= app.id %>', // App ID
+          channelUrl : '<%= url_no_scheme('/channel.html') %>', // Channel File
+          status     : true, // check login status
+          cookie     : true, // enable cookies to allow the server to access the session
+          xfbml      : true // parse XFBML
+        });
+
+        // Listen to the auth.login which will be called when the user logs in
+        // using the Login button
+        FB.Event.subscribe('auth.login', function(response) {
+          // We want to reload the page now so PHP can read the cookie that the
+          // Javascript SDK sat. But we don't want to use
+          // window.location.reload() because if this is in a canvas there was a
+          // post made to this page and a reload will trigger a message to the
+          // user asking if they want to send data again.
+          window.location = window.location;
+        });
+
+        FB.Canvas.setAutoGrow();
+      };
+
+      // Load the SDK Asynchronously
+      (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/all.js";
+        fjs.parentNode.insertBefore(js, fjs);
+	  }(document, 'script', 'facebook-jssdk'));
+
+        //facebook comment
+        var pathname = window.location.pathname;
+        var item_id = pathname.match(/\d/g);
+        item_id.join("");
+
+    </script>
+
+	<header class="clearfix">
+		<% if (user) { %>
+		
+      	<% } else { %>
+<!--      	<div>
+        	<h1>Welcome</h1>
+        	<div class="fb-login-button" data-scope="user_likes,user_photos"></div>
+		</div> -->
+      	<% } %>
+	</header>
+
+	<div id="stars">
+		<form>
+		<input name="star1" type="radio" class="star"/>
+		<input name="star1" type="radio" class="star"/>
+		<input name="star1" type="radio" class="star"/>
+		<input name="star1" type="radio" class="star"/>
+		<input name="star1" type="radio" class="star"/>
+	</div>
+
+	<section id="guides" class="clearfix" width="610px" left="160px">
+		<div class="fb-comments" data-href="http://gilterview.herokuapp.com/item/<%= item_id %>"  data-num-posts="2" data-width="470"></div>
+
+	</section>
+
+  </body>
+</html>
+
