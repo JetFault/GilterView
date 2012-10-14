@@ -1,8 +1,8 @@
 var http = require('http');
 
 var UGtoken;
-var UGid = 'b3U6LS5wPbe_EeGfCRIxPSxaLg';
-var UGsecret = 'b3U61WLxySrMTGFOp0s4w4yQ3iglVfk';
+var UGid = '';
+var UGsecret = '';
 
 var item_stars = {};
 
